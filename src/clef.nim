@@ -1,4 +1,4 @@
-import net, strutils, tables, fab
+import net, strutils, tables
 
 var server = newSocket()
 server.bindAddr(Port(1234))
@@ -41,6 +41,8 @@ while true:
       of "flush":
         if(flush()):
           echo("OK")
+      of "quit":
+        quit(1)
       else:
         echo("invalid command $#" % $cmd[0])
   except IndexError:
