@@ -7,18 +7,21 @@ server.listen()
 var client = new Socket
 server.accept(client)
 
+var data = initTable[string, string]()
 var cmd: seq[string]
 while true:
   var r = client.recvLine()
   cmd = r.split()
-  echo(cmd)
   case cmd[0]:
-    of "get":
-      blue("this is the `get` command, and you're passing $#" % $cmd[1])
     of "set":
-      green("this is the `set` command, and you're passing $#" % $cmd[1])
+      data.add(cmd[1], cmd[2])
+      echo("you set ", data)
+    of "get":
+      echo("get comes here")
     else:
-      echo("invalid command $#" % $cmd[0])
+      #echo("invalid command $#" % $cmd[0])
+      quit(1)
 
+echo(data)
 client.close()
 server.close()
