@@ -3,6 +3,9 @@ import net, strutils, tables, fab
 var server = newSocket()
 server.bindAddr(Port(1234))
 server.listen()
+var localAddr = server.getLocalAddr()
+
+echo("clef server listening on ", localAddr[0], ":", localAddr[1])
 
 var client = new Socket
 server.accept(client)
@@ -10,22 +13,27 @@ server.accept(client)
 var data = initTable[string, string]()
 var cmd: seq[string]
 
+proc setVal(key, value: string): bool =
+  data[key] = value
+  echo(data)
+  result = true
+
+proc getVal(key: string): string =
+  if(data.hasKey(key)):
+    result = data[key]
+  else:
+    result = "error: specified key doesn't exist"
+
 while true:
   var r = client.recvLine()
   cmd = r.split()
   try:
     case cmd[0]:
       of "set":
-        if(cmd[2] == ""):
-          echo("can't set nothing")
-          break
-        data.add(cmd[1], cmd[2])
-        echo("you set ", data)
+        if(setVal(cmd[1], cmd[2])):
+          echo("OK")
       of "get":
-        try:
-          echo(data[cmd[1]])
-        except KeyError:
-          echo("error: no such key '$#'" % cmd[1])
+        echo(getVal(cmd[1]))
       else:
         echo("invalid command $#" % $cmd[0])
   except IndexError:
