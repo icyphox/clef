@@ -6,3 +6,4 @@ Requires the user to connect over telnet, at the moment. Will write a client for
 ## Commands
 - `set <key> <value>`
 - `get <key>`
+- `flush`
