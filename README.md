@@ -8,3 +8,10 @@ Requires the user to connect over telnet, at the moment. Will write a client for
 - `get <key>`
 - `flush`
 - `quit`
+
+## TODO
+[] handle clients asynchronously
+[] a dedicated client
+[] cleanup code
+[] more features (?)
+
