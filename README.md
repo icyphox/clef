@@ -11,8 +11,8 @@ Requires the user to connect over telnet, at the moment. Will write a client for
 
 ## TODO
 
-[ ] handle clients asynchronously
-[ ] a dedicated client
-[ ] cleanup code
-[ ] more features (?)
+- [ ] handle clients asynchronously
+- [ ] a dedicated client
+- [ ] cleanup code
+- [ ] more features (?)
 
