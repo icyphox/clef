@@ -9,6 +9,7 @@ server.accept(client)
 
 var data = initTable[string, string]()
 var cmd: seq[string]
+
 while true:
   var r = client.recvLine()
   cmd = r.split()
@@ -17,11 +18,13 @@ while true:
       data.add(cmd[1], cmd[2])
       echo("you set ", data)
     of "get":
-      echo("get comes here")
+      try:
+        echo(data[cmd[1]])
+      except KeyError:
+        echo("error: no such key '$#'" % cmd[1])
     else:
-      #echo("invalid command $#" % $cmd[0])
-      quit(1)
+      echo("invalid command $#" % $cmd[0])
+      break
 
-echo(data)
 client.close()
 server.close()
