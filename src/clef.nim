@@ -24,6 +24,10 @@ proc getVal(key: string): string =
   else:
     result = "error: specified key doesn't exist"
 
+proc flush(): bool =
+  data = initTable[string, string]()
+  result = true
+
 while true:
   var r = client.recvLine()
   cmd = r.split()
@@ -34,6 +38,9 @@ while true:
           echo("OK")
       of "get":
         echo(getVal(cmd[1]))
+      of "flush":
+        if(flush()):
+          echo("OK")
       else:
         echo("invalid command $#" % $cmd[0])
   except IndexError:
