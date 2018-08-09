@@ -16,3 +16,4 @@ Requires the user to connect over telnet, at the moment. Will write a client for
 - [ ] a dedicated client
 - [ ] cleanup code
 - [ ] more features (?)
+- [ ] logging
