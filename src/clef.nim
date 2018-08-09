@@ -21,24 +21,24 @@ var data = initTable[string, string]()
 var cmd: seq[string]
 
 # Puts the given key-value pair into the `data` table
-proc setVal(key, value: string): bool =
+proc setVal*(key, value: string): bool =
   data[key] = value
   result = true
 
 # Fetches the value corresponding to the given key
-proc getVal(key: string): string =
+proc getVal*(key: string): string =
   if(data.hasKey(key)):
     result = data[key]
   else:
     result = "error: specified key doesn't exist"
 
 # Flushes all entries
-proc flush(): bool =
+proc flush*(): bool =
   data = initTable[string, string]()
   result = true
 
 # Returns the current hashtable
-proc list(): Table[string, string] =
+proc list*(): Table[string, string] =
   result = data
 
 while true:
