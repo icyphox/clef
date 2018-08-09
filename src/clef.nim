@@ -15,7 +15,6 @@ var cmd: seq[string]
 
 proc setVal(key, value: string): bool =
   data[key] = value
-  echo(data)
   result = true
 
 proc getVal(key: string): string =
@@ -27,6 +26,9 @@ proc getVal(key: string): string =
 proc flush(): bool =
   data = initTable[string, string]()
   result = true
+
+proc list(): Table[string, string] =
+  result = data
 
 while true:
   var r = client.recvLine()
@@ -41,13 +43,14 @@ while true:
       of "flush":
         if(flush()):
           echo("OK")
+      of "list":
+        echo(list())
       of "quit":
         quit(1)
       else:
-        echo("invalid command $#" % $cmd[0])
+        echo("error: invalid command $#" % $cmd[0])
   except IndexError:
     echo("error: $# expects an argument" % cmd[0])
-
 
 client.close()
 server.close()
