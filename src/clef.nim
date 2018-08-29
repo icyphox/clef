@@ -1,10 +1,14 @@
-import net, strutils, tables
+import net, strutils, tables, os, cli
+import utils/exceptions
+
+proc writeHelp() =
+  echo("help section here")
+
+var port*: int
 
 # Create server socket
 var server = newSocket()
-
-# TODO: Pass port as command line arg
-server.bindAddr(Port(1234))
+server.bindAddr(Port(port))
 server.listen()
 var localAddr = server.getLocalAddr()
 
@@ -41,32 +45,54 @@ proc flush*(): bool =
 proc list*(): Table[string, string] =
   result = data
 
-while true:
-  # Recieves a single line from the client
-  var r = client.recvLine()
+setControlCHook(sigintHandler)
+try:
+  while true:
+    # Recieves a single line from the client
+    var r = client.recvLine()
 
-  # Splits the string into a seq
-  cmd = r.split()
-  try:
-    case cmd[0]:
-      of "set":
-        if(setVal(cmd[1], cmd[2])):
-          echo("OK")
-      of "get":
-        echo(getVal(cmd[1]))
-      of "flush":
-        if(flush()):
-          echo("OK")
-      of "list":
-        echo(list())
-      of "quit":
-        quit(1)
-      else:
-        # FIXME: Goes into an infinite loop if user closes the session
-        echo("error: invalid command $#" % $cmd[0])
-  except IndexError:
-    echo("error: $# expects an argument" % cmd[0])
+    # Splits the string into a seq
+    cmd = r.split()
+    try:
+      case cmd[0]:
+        of "set":
+          if(setVal(cmd[1], cmd[2])):
+            echo("OK")
+        of "get":
+          echo(getVal(cmd[1]))
+        of "flush":
+          if(flush()):
+            echo("OK")
+        of "list":
+          echo(list())
+        of "quit":
+          quit(1)
+        else:
+          # FIXME: Goes into an infinite loop if user closes the session
+          echo("error: invalid command $#" % $cmd[0])
+    except IndexError:
+      echo("error: $# expects an argument" % cmd[0])
+except KeyboardInterrupt:
+  echo("Gotcha!")
+  quit(0)
+
 
 # Closing all sockets
 client.close()
 server.close()
+
+when isMainModule:  
+  echo("here")
+  when declared(commandLineParams):
+    try:
+      let args = commandLineParams()
+      case args[0]:
+        of "-p", "--port":
+          port = parseInt(args[1])
+          echo(port)
+        else:
+          writeHelp()
+    except IndexError:
+      writeHelp()
+    except ValueError:
+      echo("error: port must be a number")
