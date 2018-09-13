@@ -1,5 +1,5 @@
 import net, strutils, tables, os, cli
-import utils/exceptions
+import clefpkg/exceptions.nim
 
 proc writeHelp() =
   echo("help section here")
@@ -81,7 +81,7 @@ except KeyboardInterrupt:
 client.close()
 server.close()
 
-when isMainModule:  
+when isMainModule:
   echo("here")
   when declared(commandLineParams):
     try:
