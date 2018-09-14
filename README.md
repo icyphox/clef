@@ -1,6 +1,8 @@
 # clef
 > in-memory key-value store, written in Nim
 
+**DOESN'T BUILD AT THE MOMENT**
+
 Requires the user to connect over telnet, at the moment. Will write a client for it later.
 
 ## Commands
