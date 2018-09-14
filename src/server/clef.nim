@@ -1,5 +1,5 @@
-import net, strutils, tables, os, cli
-import clefpkg/exceptions.nim
+import net, strutils, tables, os
+import clefpkg/exceptions
 
 proc writeHelp() =
   echo("help section here")
