@@ -1,5 +1,5 @@
 import net, strutils, tables, os
-import clefpkg/exceptions
+import clefpkg/exceptions, clefpkg/utils
 
 proc writeHelp() =
   echo("help section here")
@@ -17,12 +17,6 @@ echo("clef server listening on ", localAddr[0], ":", localAddr[1])
 # Create client socket
 var client = new Socket
 server.accept(client)
-
-# Initialize empty hashtable
-var data = initTable[string, string]()
-
-# Commands will be stored here
-var cmd: seq[string]
 
 # Puts the given key-value pair into the `data` table
 proc setVal*(key, value: string): bool =
@@ -73,7 +67,7 @@ try:
     except IndexError:
       echo("error: $# expects an argument" % cmd[0])
 except KeyboardInterrupt:
-  echo("Gotcha!")
+  echo("quitting...")
   quit(0)
 
 
