@@ -2,7 +2,7 @@
 
 version       = "0.1.0"
 author        = "Anirudh"
-description   = "redis like key-value store, written in Nim"
+description   = "in-memory key-value store, written in Nim"
 license       = "MIT"
 srcDir        = "src"
 bin           = @["clef"]
